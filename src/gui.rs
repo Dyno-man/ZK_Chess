@@ -28,7 +28,7 @@ impl ChessGui {
                     let pos = (file as u8, rank as u8);
                     let is_dark = (rank + file) % 2 == 1;
                     
-                    // Determine square color based on state
+                    // Base square color
                     let base_color = if is_dark {
                         egui::Color32::from_rgb(181, 136, 99)
                     } else {
@@ -36,6 +36,8 @@ impl ChessGui {
                     };
 
                     let piece = self.board.get_piece(pos);
+                    
+                    // Determine if this square should be highlighted
                     let is_valid_move = if let Some(hover_pos) = self.hovered_square {
                         if let Some(hover_piece) = self.board.get_piece(hover_pos) {
                             if hover_piece.color == self.board.get_current_turn() {
@@ -50,12 +52,24 @@ impl ChessGui {
                         false
                     };
 
-                    // Highlight colors
-                    let square_color = if is_valid_move {
-                        if piece.is_some() {
-                            egui::Color32::from_rgb(255, 100, 100) // Capture highlight
+                    // Square coloring logic
+                    let square_color = if Some(pos) == self.selected_square {
+                        egui::Color32::from_rgb(100, 100, 255) // Selected piece highlight
+                    } else if Some(pos) == self.hovered_square {
+                        if let Some(hover_piece) = self.board.get_piece(pos) {
+                            if hover_piece.color == self.board.get_current_turn() {
+                                egui::Color32::from_rgb(180, 180, 255) // Hover highlight for current player's pieces
+                            } else {
+                                base_color
+                            }
                         } else {
-                            egui::Color32::from_rgb(100, 255, 100) // Move highlight
+                            base_color
+                        }
+                    } else if is_valid_move {
+                        if piece.is_some() {
+                            egui::Color32::from_rgb(255, 50, 50) // Capture highlight (brighter red)
+                        } else {
+                            egui::Color32::from_rgb(50, 255, 50) // Move highlight (brighter green)
                         }
                     } else {
                         base_color
@@ -68,12 +82,17 @@ impl ChessGui {
                                 .fill(square_color)
                         );
 
-                    // Handle hover
-                    if response.hovered() {
-                        self.hovered_square = Some(pos);
+                    // Update hover state before checking valid moves
+                    if ui.input(|i| i.pointer.hover_pos().is_some()) {
+                        if let Some(hover_pos) = ui.input(|i| i.pointer.hover_pos()) {
+                            let rect = response.rect;
+                            if rect.contains(hover_pos) {
+                                self.hovered_square = Some(pos);
+                            }
+                        }
                     }
 
-                    // Draw piece if present
+                    // Draw piece
                     if let Some(piece) = piece {
                         let piece_char = match (piece.piece_type, piece.color) {
                             (PieceType::Pawn, Color::White) => "♙",
@@ -106,6 +125,7 @@ impl ChessGui {
                         );
                     }
 
+                    // Handle clicks
                     if response.clicked() {
                         if let Some(from) = self.selected_square {
                             if self.board.is_valid_move(from, pos) {
@@ -113,16 +133,15 @@ impl ChessGui {
                             }
                             self.selected_square = None;
                         } else {
-                            self.selected_square = Some(pos);
+                            if let Some(piece) = self.board.get_piece(pos) {
+                                if piece.color == self.board.get_current_turn() {
+                                    self.selected_square = Some(pos);
+                                }
+                            }
                         }
                     }
                 }
             });
-        }
-
-        // Reset hover state at the end of the frame
-        if !ui.input(|i| i.pointer.primary_down()) {
-            self.hovered_square = None;
         }
 
         // Draw game status

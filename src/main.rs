@@ -3,7 +3,6 @@ mod gui;
 
 use gui::ChessGui;
 use eframe::egui;
-use egui::ViewportBuilder;
 
 fn main() {
     let options = eframe::NativeOptions {
