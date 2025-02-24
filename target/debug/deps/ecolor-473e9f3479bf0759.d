@@ -1,0 +1,11 @@
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libecolor-473e9f3479bf0759.rmeta: /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/color32.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva_gamma.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/rgba.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libecolor-473e9f3479bf0759.rlib: /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/color32.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva_gamma.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/rgba.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/ecolor-473e9f3479bf0759.d: /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/color32.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva_gamma.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/rgba.rs
+
+/Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/lib.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/color32.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva_gamma.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/hsva.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ecolor-0.24.1/src/rgba.rs:
