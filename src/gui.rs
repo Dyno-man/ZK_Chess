@@ -6,6 +6,7 @@ pub struct ChessGui {
     selected_square: Option<(u8, u8)>,
     promotion_dialog: Option<(u8, u8)>, // Coordinates of pawn being promoted
     hovered_square: Option<(u8, u8)>, // Add this field
+    game_over: bool, // Add this field
 }
 
 impl ChessGui {
@@ -15,7 +16,16 @@ impl ChessGui {
             selected_square: None,
             promotion_dialog: None,
             hovered_square: None, // Initialize new field
+            game_over: false, // Initialize new field
         }
+    }
+
+    fn reset_game(&mut self) {
+        self.board = Board::new();
+        self.selected_square = None;
+        self.promotion_dialog = None;
+        self.hovered_square = None;
+        self.game_over = false;
     }
 
     fn draw_board(&mut self, ui: &mut egui::Ui) {
@@ -195,6 +205,35 @@ impl ChessGui {
                         }
                         if ui.button("Knight").clicked() {
                             self.promote_pawn(pos, PieceType::Knight);
+                        }
+                    });
+                });
+        }
+
+        // Check for checkmate after drawing the board
+        if self.board.is_checkmate(self.board.get_current_turn()) {
+            self.game_over = true;
+        }
+
+        // Show game over dialog
+        if self.game_over {
+            let winner = if self.board.get_current_turn() == Color::White {
+                "Black"
+            } else {
+                "White"
+            };
+
+            egui::Window::new("Game Over")
+                .collapsible(false)
+                .resizable(false)
+                .anchor(egui::Align2::CENTER_CENTER, egui::Vec2::ZERO)
+                .pivot(egui::Align2::CENTER_CENTER)
+                .show(ui.ctx(), |ui| {
+                    ui.vertical_centered(|ui| {
+                        ui.heading(format!("{} Wins!", winner));
+                        ui.add_space(8.0);
+                        if ui.button("Play Again").clicked() {
+                            self.reset_game();
                         }
                     });
                 });

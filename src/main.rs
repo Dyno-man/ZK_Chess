@@ -7,7 +7,7 @@ use eframe::egui;
 fn main() {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([800.0, 800.0]),
+            .with_inner_size([855.0, 800.0]),
         ..Default::default()
     };
     
