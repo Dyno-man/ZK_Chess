@@ -1,5 +1,6 @@
 mod chess;
 mod gui;
+mod verify;
 
 use gui::ChessGui;
 use eframe::egui;

@@ -1,1 +1,1 @@
-/Users/grantversluis/Downloads/hello_world/target/debug/zk-chess: /Users/grantversluis/Downloads/hello_world/src/chess.rs /Users/grantversluis/Downloads/hello_world/src/gui.rs /Users/grantversluis/Downloads/hello_world/src/main.rs
+/Users/grantversluis/Downloads/hello_world/target/debug/zk-chess: /Users/grantversluis/Downloads/hello_world/src/chess.rs /Users/grantversluis/Downloads/hello_world/src/gui.rs /Users/grantversluis/Downloads/hello_world/src/main.rs /Users/grantversluis/Downloads/hello_world/src/verify.rs
