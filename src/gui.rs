@@ -48,7 +48,11 @@ impl ChessGui {
                     let piece = self.board.get_piece(pos);
                     
                     // Determine if this square should be highlighted
-                    let is_valid_move = if let Some(hover_pos) = self.hovered_square {
+                    let is_valid_move = if let Some(selected_pos) = self.selected_square {
+                        // Show valid moves for selected piece
+                        self.board.is_valid_move(selected_pos, pos)
+                    } else if let Some(hover_pos) = self.hovered_square {
+                        // Show valid moves for hovered piece
                         if let Some(hover_piece) = self.board.get_piece(hover_pos) {
                             if hover_piece.color == self.board.get_current_turn() {
                                 self.board.is_valid_move(hover_pos, pos)
