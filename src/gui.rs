@@ -69,6 +69,12 @@ impl ChessGui {
                     // Square coloring logic
                     let square_color = if Some(pos) == self.selected_square {
                         egui::Color32::from_rgb(100, 100, 255) // Selected piece highlight
+                    } else if is_valid_move {
+                        if piece.is_some() {
+                            egui::Color32::from_rgb(255, 50, 50) // Capture highlight (brighter red)
+                        } else {
+                            egui::Color32::from_rgb(50, 255, 50) // Move highlight (brighter green)
+                        }
                     } else if Some(pos) == self.hovered_square {
                         if let Some(hover_piece) = self.board.get_piece(pos) {
                             if hover_piece.color == self.board.get_current_turn() {
@@ -78,12 +84,6 @@ impl ChessGui {
                             }
                         } else {
                             base_color
-                        }
-                    } else if is_valid_move {
-                        if piece.is_some() {
-                            egui::Color32::from_rgb(255, 50, 50) // Capture highlight (brighter red)
-                        } else {
-                            egui::Color32::from_rgb(50, 255, 50) // Move highlight (brighter green)
                         }
                     } else {
                         base_color
