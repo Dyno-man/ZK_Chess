@@ -1,5 +1,6 @@
 use eframe::egui;
 use crate::chess::{Board, Color, Piece, PieceType};
+use crate::verify::verify_moves;
 
 pub struct ChessGui {
     board: Board,
@@ -143,9 +144,23 @@ impl ChessGui {
                     if response.clicked() {
                         if let Some(from) = self.selected_square {
                             if self.board.is_valid_move(from, pos) {
-                                self.board.make_move(from, pos);
+                                if self.board.needs_promotion(from, pos) {
+                                    self.promotion_dialog = Some(pos);
+                                    self.selected_square = Some(from);
+                                } else {
+                                    self.board.make_move(from, pos);
+                                    self.selected_square = None;
+                                }
+                            } else {
+                                // Clear selection if clicking on an invalid move
+                                self.selected_square = None;
+                                // If clicking on own piece, select it
+                                if let Some(piece) = self.board.get_piece(pos) {
+                                    if piece.color == self.board.get_current_turn() {
+                                        self.selected_square = Some(pos);
+                                    }
+                                }
                             }
-                            self.selected_square = None;
                         } else {
                             if let Some(piece) = self.board.get_piece(pos) {
                                 if piece.color == self.board.get_current_turn() {
@@ -236,21 +251,49 @@ impl ChessGui {
                     ui.vertical_centered(|ui| {
                         ui.heading(format!("{} Wins!", winner));
                         ui.add_space(8.0);
-                        if ui.button("Play Again").clicked() {
-                            self.reset_game();
-                        }
+                        ui.horizontal(|ui| {
+                            let available_width = ui.available_width();
+                            ui.add_space(available_width / 4.0);
+                            if ui.button("Play Again").clicked() {
+                                self.reset_game();
+                            }
+                            ui.add_space(8.0);
+                            if ui.button("Quit").clicked() {
+                                ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+                            }
+                            ui.add_space(available_width / 4.0);
+                        });
                     });
                 });
+
+            // Verify all moves
+            let move_history = self.board.get_move_history();
+            match verify_moves(&move_history) {
+                Ok(true) => {
+                    ui.label("✓ All moves verified with zero-knowledge proof!");
+                }
+                Ok(false) => {
+                    ui.label("❌ Move verification failed - proof invalid");
+                }
+                Err(e) => {
+                    ui.label(format!("❌ Error creating proof: {}", e));
+                }
+            }
         }
     }
 
     fn promote_pawn(&mut self, pos: (u8, u8), piece_type: PieceType) {
-        let color = if pos.1 == 7 { Color::White } else { Color::Black };
-        self.board.set_piece(pos, Some(Piece {
-            piece_type,
-            color,
-        }));
+        if let Some(from) = self.selected_square {
+            let color = if pos.1 == 7 { Color::White } else { Color::Black };
+            if self.board.make_move(from, pos) {
+                self.board.set_piece(pos, Some(Piece {
+                    piece_type,
+                    color,
+                }));
+            }
+        }
         self.promotion_dialog = None;
+        self.selected_square = None;
     }
 }
 

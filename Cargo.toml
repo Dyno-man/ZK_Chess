@@ -8,6 +8,9 @@ eframe = "0.24.1"
 egui = "0.24.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+sha2 = "0.10.8"
 
 # Comment out noir_rs for now until we implement the ZK proofs
-# noir_rs = "0.1.0" 
+# noir_rs = "0.1.0"
+nargo = { git = "https://github.com/noir-lang/noir.git" }
+acvm = { git = "https://github.com/noir-lang/noir.git" } 

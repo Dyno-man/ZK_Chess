@@ -1,3 +1,6 @@
+use serde::{Serialize, Deserialize};
+use sha2::{Sha256, Digest};
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PieceType {
     Pawn,
@@ -29,6 +32,22 @@ pub struct Move {
     pub promotion: Option<PieceType>,
     pub castle: bool,
     pub en_passant: bool,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize, Default)]
+pub struct MoveData {
+    pub from_x: u8,
+    pub from_y: u8,
+    pub to_x: u8,
+    pub to_y: u8,
+    pub piece_type: u8,
+    pub piece_color: u8,
+    pub captured_piece: Option<u8>,
+    pub promotion: Option<u8>,
+    pub castle: bool,
+    pub en_passant: bool,
+    pub move_number: u32,
+    pub board_hash: [u8; 32],
 }
 
 #[derive(Clone)]
@@ -284,7 +303,7 @@ impl Board {
 
         let piece = self.squares[from.1 as usize][from.0 as usize].unwrap();
         let captured = self.squares[to.1 as usize][to.0 as usize];
-        let mut promotion = None;
+        let promotion = None;
         let mut castle = false;
         let mut en_passant = false;
 
@@ -296,12 +315,6 @@ impl Board {
                     let capture_pos = (to.0, from.1);
                     self.squares[capture_pos.1 as usize][capture_pos.0 as usize] = None;
                     en_passant = true;
-                }
-
-                // Pawn promotion
-                if (piece.color == Color::White && to.1 == 7) || 
-                   (piece.color == Color::Black && to.1 == 0) {
-                    promotion = Some(PieceType::Queen); // Auto-promote to queen for now
                 }
 
                 // Track double moves for en passant
@@ -481,5 +494,65 @@ impl Board {
 
     pub fn set_piece(&mut self, pos: (u8, u8), piece: Option<Piece>) {
         self.squares[pos.1 as usize][pos.0 as usize] = piece;
+    }
+
+    fn compute_board_hash(&self) -> [u8; 32] {
+        let mut hasher = Sha256::new();
+        
+        // Hash the entire board state
+        for rank in 0..8 {
+            for file in 0..8 {
+                if let Some(piece) = self.squares[rank][file] {
+                    hasher.update(&[
+                        file as u8,
+                        rank as u8,
+                        piece_type_to_u8(piece.piece_type),
+                        if piece.color == Color::White { 0 } else { 1 }
+                    ]);
+                }
+            }
+        }
+        
+        hasher.finalize().into()
+    }
+
+    pub fn get_move_history(&self) -> Vec<MoveData> {
+        self.moves.iter().enumerate().map(|(i, m)| MoveData {
+            from_x: m.from.0,
+            from_y: m.from.1,
+            to_x: m.to.0,
+            to_y: m.to.1,
+            piece_type: piece_type_to_u8(m.piece.piece_type),
+            piece_color: if m.piece.color == Color::White { 0 } else { 1 },
+            captured_piece: m.captured.map(|p| piece_type_to_u8(p.piece_type)),
+            promotion: m.promotion.map(piece_type_to_u8),
+            castle: m.castle,
+            en_passant: m.en_passant,
+            move_number: i as u32,
+            board_hash: self.compute_board_hash(),
+        }).collect()
+    }
+
+    pub fn needs_promotion(&self, from: (u8, u8), to: (u8, u8)) -> bool {
+        if let Some(piece) = self.get_piece(from) {
+            if piece.piece_type == PieceType::Pawn {
+                if (piece.color == Color::White && to.1 == 7) ||
+                   (piece.color == Color::Black && to.1 == 0) {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+}
+
+fn piece_type_to_u8(piece_type: PieceType) -> u8 {
+    match piece_type {
+        PieceType::Pawn => 0,
+        PieceType::Knight => 1,
+        PieceType::Bishop => 2,
+        PieceType::Rook => 3,
+        PieceType::Queen => 4,
+        PieceType::King => 5,
     }
 } 
