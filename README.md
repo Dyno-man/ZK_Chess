@@ -31,8 +31,8 @@ A chess game implementation in Rust that uses Zero-Knowledge proofs to verify th
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/zk-chess.git
-cd zk-chess
+git clone https://github.com/Dyno-man/ZK_Chess
+cd ZK_Chess
 ```
 
 2. Build the project:
@@ -72,4 +72,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[Add your chosen license here]
+Apahce 2.0
