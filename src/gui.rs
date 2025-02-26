@@ -268,10 +268,16 @@ impl ChessGui {
 
             // Verify all moves
             let move_history = self.board.get_move_history();
-            if let Err(e) = verify_moves(&move_history) {
-                ui.label(format!("Move verification failed: {}", e));
-            } else {
-                ui.label("All moves verified!");
+            match verify_moves(&move_history) {
+                Ok(true) => {
+                    ui.label("✓ All moves verified with zero-knowledge proof!");
+                }
+                Ok(false) => {
+                    ui.label("❌ Move verification failed - proof invalid");
+                }
+                Err(e) => {
+                    ui.label(format!("❌ Error creating proof: {}", e));
+                }
             }
         }
     }

@@ -1,49 +1,40 @@
 use crate::chess::MoveData;
-use std::error::Error;
-use std::process::Command;
-use std::fs;
-use serde_json::json;
+use nargo::{
+    package::Package,
+    artifacts::{CircuitArtifacts, ProofArtifacts},
+};
+use acvm::ProofSystem;
 
-pub fn verify_moves(moves: &[MoveData]) -> Result<(), Box<dyn Error>> {
-    // Create initial board state
-    let initial_board = create_initial_board();
+pub fn verify_moves(moves: &[MoveData]) -> Result<bool, String> {
+    let initial_board = [0; 64]; // Start with empty board
     
-    // Create Prover.toml with our inputs
-    let input = json!({
-        "moves": moves,
-        "move_count": moves.len(),
-        "initial_board": initial_board
-    });
+    let package = Package::new("chess_circuit").map_err(|e| e.to_string())?;
+    let artifacts = package.compile().map_err(|e| e.to_string())?;
     
-    fs::write("chess_circuit/Prover.toml", input.to_string())?;
-
-    // Generate the proof
-    let output = Command::new("nargo")
-        .current_dir("chess_circuit")
-        .arg("prove")
-        .output()?;
-
-    if !output.status.success() {
-        return Err(format!(
-            "Proof generation failed: {}",
-            String::from_utf8_lossy(&output.stderr)
-        ).into());
+    // Convert moves to circuit format
+    let mut circuit_moves = [[MoveData::default(); 256]; 1];
+    for (i, m) in moves.iter().enumerate() {
+        circuit_moves[0][i] = *m;
     }
-
+    
+    // Create proof
+    let proof = artifacts.prove(vec![
+        circuit_moves.into(),
+        (moves.len() as u8).into(),
+        initial_board.into(),
+    ])?;
+    
     // Verify the proof
-    let output = Command::new("nargo")
-        .current_dir("chess_circuit")
-        .arg("verify")
-        .output()?;
+    let verified = artifacts.verify(
+        &proof,
+        vec![
+            circuit_moves.into(),
+            (moves.len() as u8).into(),
+            initial_board.into(),
+        ],
+    )?;
 
-    if !output.status.success() {
-        return Err(format!(
-            "Proof verification failed: {}",
-            String::from_utf8_lossy(&output.stderr)
-        ).into());
-    }
-
-    Ok(())
+    Ok(verified)
 }
 
 fn create_initial_board() -> Vec<u8> {

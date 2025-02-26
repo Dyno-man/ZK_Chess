@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use sha2::{Sha256, Digest};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PieceType {
@@ -33,7 +34,7 @@ pub struct Move {
     pub en_passant: bool,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct MoveData {
     pub from_x: u8,
     pub from_y: u8,
@@ -45,6 +46,8 @@ pub struct MoveData {
     pub promotion: Option<u8>,
     pub castle: bool,
     pub en_passant: bool,
+    pub move_number: u32,
+    pub board_hash: [u8; 32],
 }
 
 #[derive(Clone)]
@@ -493,8 +496,28 @@ impl Board {
         self.squares[pos.1 as usize][pos.0 as usize] = piece;
     }
 
+    fn compute_board_hash(&self) -> [u8; 32] {
+        let mut hasher = Sha256::new();
+        
+        // Hash the entire board state
+        for rank in 0..8 {
+            for file in 0..8 {
+                if let Some(piece) = self.squares[rank][file] {
+                    hasher.update(&[
+                        file as u8,
+                        rank as u8,
+                        piece_type_to_u8(piece.piece_type),
+                        if piece.color == Color::White { 0 } else { 1 }
+                    ]);
+                }
+            }
+        }
+        
+        hasher.finalize().into()
+    }
+
     pub fn get_move_history(&self) -> Vec<MoveData> {
-        self.moves.iter().map(|m| MoveData {
+        self.moves.iter().enumerate().map(|(i, m)| MoveData {
             from_x: m.from.0,
             from_y: m.from.1,
             to_x: m.to.0,
@@ -505,6 +528,8 @@ impl Board {
             promotion: m.promotion.map(piece_type_to_u8),
             castle: m.castle,
             en_passant: m.en_passant,
+            move_number: i as u32,
+            board_hash: self.compute_board_hash(),
         }).collect()
     }
 

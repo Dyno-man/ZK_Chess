@@ -12,18 +12,30 @@ struct MoveData {
     promotion: Field,
     castle: bool,
     en_passant: bool,
+    move_number: u32,
+    board_hash: [u8; 32],
 }
 
 fn main(moves: [MoveData; 256], move_count: u8, initial_board: [u8; 64]) -> pub bool {
     let mut board = initial_board;
     let mut current_turn = 0;
+    let mut prev_hash = [0; 32];
     
     for i in 0..move_count {
-        assert_valid_move(moves[i], board, current_turn);
-        board = update_board(moves[i], board);
+        let move = moves[i];
+        assert(move.move_number == i as u32);
+        
+        assert_valid_move(move, board, current_turn);
+        board = update_board(move, board);
+        
+        let new_hash = compute_board_hash(board);
+        assert(new_hash == move.board_hash);
+        prev_hash = new_hash;
+        
         current_turn = (current_turn + 1) % 2;
     }
-    1 == 1 // Return true in Noir syntax
+    
+    true
 }
 
 fn assert_valid_move(move: MoveData, board: [u8; 64], current_turn: u8) {
@@ -209,8 +221,6 @@ fn valid_king_move(move: MoveData, board: [u8; 64]) -> bool {
     res
 }
 
-
-
 fn update_board(move: MoveData, mut board: [u8; 64]) -> [u8; 64] {
     let from_idx = move.from_y * 8 + move.from_x;
     let to_idx = move.to_y * 8 + move.to_x;
@@ -251,4 +261,10 @@ fn update_board(move: MoveData, mut board: [u8; 64]) -> [u8; 64] {
 
 fn abs_diff(a: u8, b: u8) -> u8 {
     if a > b { a - b } else { b - a }
+}
+
+fn compute_board_hash(board: [u8; 64]) -> [u8; 32] {
+    // Implementation of compute_board_hash function
+    // This is a placeholder and should be replaced with the actual implementation
+    [0; 32]
 }

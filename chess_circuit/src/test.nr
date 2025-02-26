@@ -22,6 +22,8 @@ mod test {
             promotion: 0,
             castle: false,
             en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
         };
         
         // Test the move
@@ -49,6 +51,8 @@ mod test {
             promotion: 0,
             castle: false,
             en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
         };
         
         // Test the move
@@ -71,6 +75,8 @@ mod test {
             promotion: 0,
             castle: false,
             en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
         };
 
         assert(valid_pawn_move(move, board));
@@ -78,6 +84,82 @@ mod test {
         // Test the full move validation
         let moves = [move; 256];
         assert(main(moves, 1, board));
+    }
+
+    #[test]
+    fn test_pawn_capture() {
+        let mut board = [0; 64];
+        // Place white pawn at (1,1)
+        board[9] = 1;
+        // Place black pawn at (2,2)
+        board[18] = 9; // Black pawn (piece type 0, color 1)
+        
+        let capture_move = MoveData {
+            from_x: 1,
+            from_y: 1,
+            to_x: 2,
+            to_y: 2,
+            piece_type: 0,
+            piece_color: 0,
+            captured_piece: 0,
+            promotion: 0,
+            castle: false,
+            en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
+        };
+        
+        assert(valid_pawn_move(capture_move, board));
+    }
+
+    #[test]
+    fn test_pawn_double_move() {
+        let mut board = [0; 64];
+        // Place white pawn at starting position
+        board[8] = 1;
+        
+        let double_move = MoveData {
+            from_x: 0,
+            from_y: 1,
+            to_x: 0,
+            to_y: 3,
+            piece_type: 0,
+            piece_color: 0,
+            captured_piece: 0,
+            promotion: 0,
+            castle: false,
+            en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
+        };
+        
+        assert(valid_pawn_move(double_move, board));
+    }
+
+    #[test]
+    fn test_knight_capture() {
+        let mut board = [0; 64];
+        // Place white knight
+        board[1] = 2;
+        // Place black pawn
+        board[10] = 9;
+        
+        let capture_move = MoveData {
+            from_x: 1,
+            from_y: 0,
+            to_x: 2,
+            to_y: 2,
+            piece_type: 1,
+            piece_color: 0,
+            captured_piece: 0,
+            promotion: 0,
+            castle: false,
+            en_passant: false,
+            move_number: 0,
+            board_hash: [0; 32],
+        };
+        
+        assert(valid_knight_move(capture_move));
     }
 
     fn setup_initial_board() -> [u8; 64] {
