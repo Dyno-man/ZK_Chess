@@ -517,20 +517,44 @@ impl Board {
     }
 
     pub fn get_move_history(&self) -> Vec<MoveData> {
-        self.moves.iter().enumerate().map(|(i, m)| MoveData {
-            from_x: m.from.0,
-            from_y: m.from.1,
-            to_x: m.to.0,
-            to_y: m.to.1,
-            piece_type: piece_type_to_u8(m.piece.piece_type),
-            piece_color: if m.piece.color == Color::White { 0 } else { 1 },
-            captured_piece: m.captured.map(|p| piece_type_to_u8(p.piece_type)),
-            promotion: m.promotion.map(piece_type_to_u8),
-            castle: m.castle,
-            en_passant: m.en_passant,
-            move_number: i as u32,
-            board_hash: self.compute_board_hash(),
-        }).collect()
+        // Create a temporary board to simulate the game state after each move
+        let mut temp_board = Board::new();
+        let mut move_data_list = Vec::new();
+        
+        // Iterate through each move and compute the board hash after applying the move
+        for (i, m) in self.moves.iter().enumerate() {
+            // Apply the move to the temporary board
+            temp_board.make_move(m.from, m.to);
+            
+            // Handle promotion if needed
+            if let Some(promotion_type) = m.promotion {
+                temp_board.set_piece(m.to, Some(Piece {
+                    piece_type: promotion_type,
+                    color: m.piece.color,
+                }));
+            }
+            
+            // Create the move data for this move with the hash AFTER the move
+            let move_data = MoveData {
+                from_x: m.from.0,
+                from_y: m.from.1,
+                to_x: m.to.0,
+                to_y: m.to.1,
+                piece_type: piece_type_to_u8(m.piece.piece_type),
+                piece_color: if m.piece.color == Color::White { 0 } else { 1 },
+                captured_piece: m.captured.map(|p| piece_type_to_u8(p.piece_type)),
+                promotion: m.promotion.map(piece_type_to_u8),
+                castle: m.castle,
+                en_passant: m.en_passant,
+                move_number: i as u32,
+                board_hash: temp_board.compute_board_hash(),
+            };
+            
+            // Add the move data to the list
+            move_data_list.push(move_data);
+        }
+        
+        move_data_list
     }
 
     pub fn needs_promotion(&self, from: (u8, u8), to: (u8, u8)) -> bool {

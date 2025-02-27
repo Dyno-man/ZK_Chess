@@ -1,0 +1,167 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.loading {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.error {
+  background-color: #ffdddd;
+  color: #ff0000;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.closeError {
+  background: none;
+  border: none;
+  color: #ff0000;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.gameInfo {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.highlight {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.statusContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statusLabel {
+  font-weight: bold;
+  min-width: 120px;
+  text-align: right;
+}
+
+.statusGood {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.statusBad {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.statusWaiting {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.refreshButton {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.refreshButton:hover {
+  background-color: #d0d0d0;
+}
+
+.refreshButton:disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.reconnectButton {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.reconnectButton:hover {
+  background-color: #1976d2;
+}
+
+.refreshingIndicator {
+  color: #2196f3;
+  font-style: italic;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.boardContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+
+.waitingMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  color: #757575;
+}
+
+.returnButton {
+  margin-top: 1.5rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.returnButton:hover {
+  background-color: #e0e0e0;
+}
+
+.lastChecked {
+  font-size: 0.8rem;
+  color: #757575;
+  margin-top: 0.5rem;
+} 

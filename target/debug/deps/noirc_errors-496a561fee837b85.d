@@ -1,0 +1,10 @@
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libnoirc_errors-496a561fee837b85.rmeta: /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/lib.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/debug_info.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/position.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/reporter.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libnoirc_errors-496a561fee837b85.rlib: /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/lib.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/debug_info.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/position.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/reporter.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/noirc_errors-496a561fee837b85.d: /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/lib.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/debug_info.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/position.rs /Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/reporter.rs
+
+/Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/lib.rs:
+/Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/debug_info.rs:
+/Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/position.rs:
+/Users/grantversluis/.cargo/git/checkouts/noir-f94ec65ebdc2e6cb/45e7a7d/compiler/noirc_errors/src/reporter.rs:

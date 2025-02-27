@@ -8,6 +8,9 @@ pub struct ChessGui {
     promotion_dialog: Option<(u8, u8)>, // Coordinates of pawn being promoted
     hovered_square: Option<(u8, u8)>, // Add this field
     game_over: bool, // Add this field
+    moves_verified: bool, // Track if moves have been verified
+    verification_result: Option<Result<bool, String>>, // Store verification result
+    quitting: bool, // Track if we're quitting
 }
 
 impl ChessGui {
@@ -18,6 +21,9 @@ impl ChessGui {
             promotion_dialog: None,
             hovered_square: None, // Initialize new field
             game_over: false, // Initialize new field
+            moves_verified: false, // Initialize new field
+            verification_result: None, // Initialize new field
+            quitting: false, // Initialize new field
         }
     }
 
@@ -27,6 +33,9 @@ impl ChessGui {
         self.promotion_dialog = None;
         self.hovered_square = None;
         self.game_over = false;
+        self.moves_verified = false;
+        self.verification_result = None;
+        self.quitting = false;
     }
 
     fn draw_board(&mut self, ui: &mut egui::Ui) {
@@ -232,6 +241,13 @@ impl ChessGui {
         // Check for checkmate after drawing the board
         if self.board.is_checkmate(self.board.get_current_turn()) {
             self.game_over = true;
+            
+            // Only verify moves once when game is over
+            if !self.moves_verified {
+                let move_history = self.board.get_move_history();
+                self.verification_result = Some(verify_moves(&move_history));
+                self.moves_verified = true;
+            }
         }
 
         // Show game over dialog
@@ -259,24 +275,41 @@ impl ChessGui {
                             }
                             ui.add_space(8.0);
                             if ui.button("Quit").clicked() {
-                                ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+                                // Verify moves before quitting
+                                if !self.moves_verified {
+                                    let move_history = self.board.get_move_history();
+                                    self.verification_result = Some(verify_moves(&move_history));
+                                    self.moves_verified = true;
+                                    // Set quitting flag to true
+                                    self.quitting = true;
+                                    // We'll actually quit in the update method after showing verification result
+                                } else {
+                                    // If already verified, quit immediately
+                                    ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
+                                }
                             }
                             ui.add_space(available_width / 4.0);
                         });
                     });
                 });
 
-            // Verify all moves
-            let move_history = self.board.get_move_history();
-            match verify_moves(&move_history) {
-                Ok(true) => {
-                    ui.label("✓ All moves verified with zero-knowledge proof!");
+            // Display verification result
+            if let Some(result) = &self.verification_result {
+                match result {
+                    Ok(true) => {
+                        ui.label("✓ All moves verified with zero-knowledge proof!");
+                    }
+                    Ok(false) => {
+                        ui.label("❌ Move verification failed - proof invalid");
+                    }
+                    Err(e) => {
+                        ui.label(format!("❌ Error creating proof: {}", e));
+                    }
                 }
-                Ok(false) => {
-                    ui.label("❌ Move verification failed - proof invalid");
-                }
-                Err(e) => {
-                    ui.label(format!("❌ Error creating proof: {}", e));
+                
+                // If we're quitting and have shown the verification result, exit
+                if self.quitting {
+                    ui.ctx().send_viewport_cmd(egui::ViewportCommand::Close);
                 }
             }
         }
