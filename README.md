@@ -16,8 +16,12 @@ A chess game implementation in Rust that uses Zero-Knowledge proofs to verify th
 
 ## Technical Stack
 
-- **Frontend**: Rust with egui framework
-- **Chess Logic**: Pure Rust implementation
+- **Frontend**: 
+  - Rust with egui framework (desktop version)
+  - Next.js with React (web version)
+- **Chess Logic**: 
+  - Pure Rust (desktop version)
+  - TypeScript (web version)
 - **ZK Proofs**: Noir (for move validation circuits)
 - **Cryptography**: SHA-256 for board state hashing
 
@@ -57,14 +61,27 @@ cargo run --release
 
 ## Project Structure
 
+### Desktop Version
 - `src/` - Main Rust game implementation
   - `main.rs` - Entry point
   - `chess.rs` - Chess logic and move validation
   - `gui.rs` - Game interface using egui
   - `verify.rs` - ZK proof generation and verification
-- `chess_circuit/` - Noir circuit implementation
-  - `src/main.nr` - Move validation circuit
-  - `src/test.nr` - Circuit tests
+
+### Web Version
+- `zk-chess-web/` - Next.js web implementation
+  - `pages/` - Next.js pages
+  - `styles/` - CSS modules
+  - `utils/` - Helper functions and ZK proof integration
+  - `components/` - React components
+
+## Running the Web Version
+
+```bash
+cd zk-chess-web
+npm install
+npm run dev
+```
 
 ## Contributing
 

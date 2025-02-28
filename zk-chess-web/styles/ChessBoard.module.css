@@ -1,0 +1,72 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 500px;
+  height: 500px;
+  border: 2px solid #333;
+  margin: 20px auto;
+  position: relative;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  cursor: pointer;
+  position: relative;
+}
+
+.light {
+  background-color: #f0d9b5;
+}
+
+.dark {
+  background-color: #b58863;
+}
+
+.selected {
+  background-color: rgba(173, 216, 230, 0.7);
+}
+
+.validMove::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.piece {
+  font-size: 40px;
+  line-height: 1;
+  user-select: none;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  z-index: 10;
+}
+
+.turnIndicator {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+} 

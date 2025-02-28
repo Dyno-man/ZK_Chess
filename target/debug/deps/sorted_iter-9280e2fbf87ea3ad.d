@@ -1,0 +1,10 @@
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libsorted_iter-9280e2fbf87ea3ad.rmeta: /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/one_or_less_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_pair_iterator.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/libsorted_iter-9280e2fbf87ea3ad.rlib: /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/one_or_less_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_pair_iterator.rs
+
+/Users/grantversluis/Downloads/hello_world/target/debug/deps/sorted_iter-9280e2fbf87ea3ad.d: /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/lib.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/one_or_less_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_iterator.rs /Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_pair_iterator.rs
+
+/Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/lib.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/one_or_less_iterator.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_iterator.rs:
+/Users/grantversluis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sorted-iter-0.1.11/src/sorted_pair_iterator.rs:
